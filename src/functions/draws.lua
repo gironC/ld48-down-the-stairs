@@ -21,11 +21,6 @@ function drawGame()
   end
   love.graphics.draw(gridimgs[gridselect],16,16)
   love.graphics.draw(door.img, door.quads[(door.animfile*8)+door.animframe], 112, 112)
-  for a = 1, 7 do
-    for b = 1, 7 do
-      if grid[a][b] == 1 then love.graphics.rectangle('line', b*16, a*16, 16, 16) end
-    end
-  end
   if turn == 1 then
     for a = 1, #player.movepos do
       love.graphics.draw(selector.img, selector.quads[selector.animframe+8], player.movepos[a].x*16, player.movepos[a].y*16)
