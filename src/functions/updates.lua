@@ -1,3 +1,43 @@
+function titleUpdate(dt)
+  if turn > 0 then
+    if curtainstate == 0 then
+      if curtainpos < -40 then curtainpos = curtainpos + (400 * dt)
+      else
+        curtainpos = -32
+        curtainstate = 1
+      end
+    elseif curtainstate == 1 then
+      curtaintime = curtaintime + dt
+      if curtaintime >= 1 then
+        if nextscreen[1] == 'game' then
+          screen = 'game'
+          level = 1
+          player.animfile = 0
+          player.life = 4
+          player.atk = 2
+          player.move = 2
+          player.x = 1
+          player.y = 1
+          turn = 11
+          curtaintime = 0
+          curtainstate = 2
+        else
+          curtaintime = 0
+          curtainstate = 2
+          screen = 'title'
+        end
+      end
+    else
+      if curtainpos < 256 then curtainpos = curtainpos + (400 * dt)
+      else
+        curtainpos = -320
+        curtainstate = 0
+        if screen == 'title' then turn = 0 end
+      end
+    end
+  end
+end
+
 function gameUpdate(dt)
   player.update(dt, enemies)
   player.animation(dt)
@@ -60,6 +100,13 @@ function gameUpdate(dt)
         bannerpos = 0
         bannerstate = 1
       end
+    elseif bannerstate == 1 then
+      bannertime = bannertime + dt
+      if bannertime >= 1 then
+        bannertime = 0
+        player.movecount = player.dice
+        turn = 3
+      end
     end
   elseif turn == 3 then
     if bannerstate == 1 then
@@ -68,7 +115,7 @@ function gameUpdate(dt)
         bannertime = 0
         bannerstate = 2
       end
-    else
+    elseif bannerstate == 2 then
       if bannerpos < 144 then bannerpos = bannerpos + (400 * dt)
       else
         bannerpos = -144
@@ -100,9 +147,7 @@ function gameUpdate(dt)
       else
         bannerpos = -144
         bannerstate = 0
-        if turn == 12 then
-          turn = 16
-          nextscreen = {'menu', 1}
+        if turn == 12 then turn = 16
         elseif turn == 13 then turn = 14 end
       end
     end
@@ -116,8 +161,18 @@ function gameUpdate(dt)
     elseif curtainstate == 1 then
       curtaintime = curtaintime + dt
       if curtaintime >= 1 then
-        curtaintime = 0
-        curtainstate = 2
+        if nextscreen[1] == 'title' then
+          curtaintime = 0
+          curtainstate = 2
+          screen = 'title'
+          turn = 1
+        elseif nextscreen[1] == 'level' then
+          player.x = 1
+          player.y = 1
+          door.animfile = 0
+          turn = 11
+          createGrid(level, player)
+        end
       end
     else
       if curtainpos < 256 then curtainpos = curtainpos + (400 * dt)

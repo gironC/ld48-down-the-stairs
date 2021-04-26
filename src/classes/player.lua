@@ -53,7 +53,7 @@ playerClass.new = function(x, y)
   self.update = function(dt, enemies)
     if turn == 2 then
       self.dicetime = self.dicetime + dt
-      if self.dicetime >= 0.1 then
+      if self.dicetime >= 0.2 then
         self.dicetime = 0
         self.dice = math.random(1,6)
       end
@@ -95,7 +95,11 @@ playerClass.new = function(x, y)
         bannerpos = -144
         bannerstate = 0
         bannertime = 0
+        curtainpos = -320
+        curtaintime = 0
+        curtainstate = 0
         turn = 12
+        nextscreen = {'title', 0}
       elseif #enemies == 0 then turn = 13
       else
         self.movepos = {}
@@ -133,7 +137,8 @@ playerClass.new = function(x, y)
         turn = 0
       end
     elseif turn == 14 then
-      self.path = aStar({x=self.x, y=self.y}, {x=7, y=7})
+      self.path = aStar({x=self.x, y=self.y}, {x=7, y=6})
+      table.insert(self.path,{x=7, y=6})
       table.insert(self.path,{x=7, y=7})
       self.animfile = 1
       self.animframe = 1
@@ -145,6 +150,13 @@ playerClass.new = function(x, y)
           self.x = self.path[1].x
           self.y = self.path[1].y
           table.remove(self.path, 1)
+        else
+          curtainpos = -320
+          curtaintime = 0
+          curtainstate = 0
+          turn = 16
+          level = level + 1
+          nextscreen = {'level', level + 1}
         end
       end
     end
@@ -184,9 +196,6 @@ playerClass.new = function(x, y)
           end
         end
         if mousex >= 16 and mousex <= 64 and mousey >= 144 and mousey <= 160 then turn = 5 end
-      elseif turn == 2 then
-        self.movecount = self.dice
-        turn = 3
       elseif turn == 5 then
         if mousex >= 56 and mousex <= 72 and mousey >= 144 and mousey <= 160 then
           turn = 6

@@ -1,3 +1,12 @@
+function drawTitle()
+  love.graphics.draw(titleimg, 0, 0)
+  love.graphics.print('INSTRUCTIONS:', 16, 80)
+  love.graphics.print('THIS IS YOUR LIFE BAR', 32, 96)
+  love.graphics.print('EVERY TIME YOU MOVE,\nYOU WILL LOSE A\nMOVEMENT POINT', 32, 128)
+  love.graphics.print('EVERY TIME YOU ATTACK,\nYOU WILL LOSE AN\nATTACK POINT', 32, 160)
+  love.graphics.draw(curtainimg, 0, curtainpos)
+end
+
 function drawGame()
   love.graphics.translate(player.tx, player.ty)
   love.graphics.draw(interface,0,0)
@@ -33,7 +42,8 @@ function drawGame()
     if enemies[a].type == 0 then love.graphics.draw(wormimg, enemies[a].quads[(enemies[a].animfile*8)+enemies[a].animframe], enemies[a].x*16, (enemies[a].y*16)-7) end
   end
   love.graphics.draw(player.img, player.quads[(player.animfile*8)+player.animframe], player.x*16, (player.y*16)-7)
-
+  love.graphics.print('CAVE',112, 176)
+  love.graphics.print(level, 112, 184)
   if turn == 0 then
     love.graphics.draw(banners, bannerquads[1], bannerpos, 120)
   elseif turn == 1 then

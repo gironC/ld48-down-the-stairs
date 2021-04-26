@@ -13,9 +13,9 @@ function love.load()
   love.graphics.setBackgroundColor(0,0.03529,0.098)
   mousex = 0
   mousey = 0
-  screen = 'game'
+  screen = 'title'
   level = 1
-  turn = 11 -- 0:banner 1:dir 2:dice 3:banner 4:mv 5:quest-atk 6:atk 7:banner 8:enemy-a* 9:enemy-move 10:enemy-atk 11:damage-count 12:game-over 13:banner 14:a* 15:walk 16:curtain
+  turn = 0 -- 0:banner 1:dir 2:dice 3:banner 4:mv 5:quest-atk 6:atk 7:banner 8:enemy-a* 9:enemy-move 10:enemy-atk 11:damage-count 12:game-over 13:banner 14:a* 15:walk 16:curtain
   gridselect = 0
   grid = {}
   gridimgs = {}
@@ -33,33 +33,33 @@ function love.load()
   player = playerClass.new(1,1)
   selector = selectorClass.new()
   door = doorClass.new()
-  createGrid(1,10)
-  createEnemies(level, player, 1)
-  --createEnemies(level, player, 2)
 end
 
 function love.update(dt)
   mousex = math.floor(love.mouse.getX() / 3)
   mousey = math.floor(love.mouse.getY()/ 3)
-  if screen == 'game' then gameUpdate(dt) end
+  if screen == 'title' then titleUpdate(dt)
+  elseif screen == 'game' then gameUpdate(dt) end
 end
 
 function love.keypressed(key)
 end
 
 function love.mousepressed(x, y, button, istouch)
-  player.mousepressed(x, y, button, istouch, enemies)
-  if button == 2 then
-    if door.animfile == 0 then
-      door.animfile = 1
-      door.animframe = 1
-      door.animtime = 0
+  if screen == 'title' then
+    if button == 1 and turn == 0 then
+      turn = 1
+      nextscreen = {'game', 1}
+      createGrid(1, player)
     end
+  elseif screen == 'game' then
+    player.mousepressed(x, y, button, istouch, enemies)
   end
 end
 
 function love.draw()
   love.graphics.scale(3, 3)
   love.graphics.setColor(1,1,1)
-  drawGame()
+  if screen == 'title' then drawTitle()
+  elseif screen == 'game' then drawGame() end
 end

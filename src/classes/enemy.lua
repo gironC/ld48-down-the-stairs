@@ -29,7 +29,7 @@ wormClass.new = function(x, y, t)
       for a = 1, #self.path do
         self.movecount = self.movecount + 1
         table.insert(self.pathmove, self.path[a])
-        if self.movecount == 3 then break end
+        if self.movecount == 4 then break end
       end
       self.animfile = 1
       turn = 9

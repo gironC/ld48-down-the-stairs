@@ -15,6 +15,7 @@ function loadImages()
   banners = love.graphics.newImage('src/media/imgs/banners.png')
   wormimg = love.graphics.newImage('src/media/imgs/enemy-1.png')
   curtainimg = love.graphics.newImage('src/media/imgs/curtain.png')
+  titleimg = love.graphics.newImage('src/media/imgs/title.png')
 
   for a = 1, 5 do
     table.insert(bannerquads,love.graphics.newQuad(0, (a-1)*24, 144, 24, banners:getDimensions()))
